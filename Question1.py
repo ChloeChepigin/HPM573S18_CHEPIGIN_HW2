@@ -2,6 +2,10 @@
 Constant = 1.371
 N6 = 0.371
 
+# equation from the website: u* = 1.371 (0.98 * 1.00 * 1.00 * 0.93 * 1.00 * 0.95 * 1.00 * 0.90) - 0.371 = 0.70
+# so included below is a *= for the constant and a -= for N6 (which is just how I named it because we used N3 in the lab
+
+
 dictCoefficients = {'Vision':       [1, 0.98, 0.89, 0.84, 0.75, 0.61],
                     'Hearing':      [1, 0.95, 0.89, 0.80, 0.74, 0.61],
                     'Speech':       [1, 0.94, 0.89, 0.81, 0.68],
@@ -43,11 +47,7 @@ def get_score(vision, hearing, speech, ambulation, dexterity, emotion, cognition
         raise ValueError ('Pain level can take only 1, 2, 3, 4, or 5')
 
 
-    score = 1
-
-    if (vision*hearing*speech*ambulation*dexterity*emotion*cognition*pain > 0):
-        score *=Constant    #score = score * Constant
-        score -= N6         #score = score - Constant
+    score = Constant
 
     score *= dictCoefficients['Vision'][vision - 1]
     score *= dictCoefficients['Hearing'][hearing - 1]
@@ -57,5 +57,7 @@ def get_score(vision, hearing, speech, ambulation, dexterity, emotion, cognition
     score *= dictCoefficients['Emotion'][emotion - 1]
     score *= dictCoefficients['Cognition'][cognition - 1]
     score *= dictCoefficients['Pain'][pain - 1]
+
+    score -= N6
 
     return score
